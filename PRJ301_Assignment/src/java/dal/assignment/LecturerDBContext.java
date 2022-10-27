@@ -20,53 +20,56 @@ import model.Student;
  *
  * @author admin
  */
-public class GroupDBContext extends DBContext<Group> {
+public class LecturerDBContext extends DBContext<Lecturer> {
 
     @Override
-    public void insert(Group model) {
+    public void insert(Lecturer model) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
-    public void update(Group model) {
+    public void update(Lecturer model) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
-    public void delete(Group model) {
+    public void delete(Lecturer model) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
-    public Group get(int gid) {
+    public Lecturer get(int lid) {
         try {
-            String sql = "SELECT g.[gid], g.[gname], g.[lid]\n"
-                    + "			,l.lid,l.lname\n"
-                    + "			,s.stdid,s.stdname\n"
-                    + "			,ISNULL(a.present,0) present, ISNULL(a.[description],'') [description]\n"
-                    + "			,ses.sesid,ses.[index],ses.date,ses.attanded\n"
-                    + "		  FROM [Group] g\n"
-                    + "		  INNER JOIN Lecturer l ON l.lid = g.lid\n"
-                    + "		  INNER JOIN [Student_Group] sg ON sg.gid = g.gid \n"
-                    + "		  INNER JOIN [Student] s ON s.stdid = sg.stdid \n"
-                    + "		  INNER JOIN [Session] ses ON g.gid = ses.gid \n"
-                    + "		  LEFT JOIN Attandance a ON s.stdid = a.stdid AND ses.sesid = a.sesid\n"
-                    + "		  WHERE g.gid = ?";
+            String sql = "SELECT    l.lid,l.lname,\n"
+                    + "             g.[gid], g.[gname], g.[lid]\n"
+                    + "             ,s.stdid,s.stdname\n"
+                    + "             ,ISNULL(a.present,0) present, ISNULL(a.[description],'') [description]\n"
+                    + "             ,ses.sesid,ses.[index],ses.date,ses.attanded\n"
+                    + "             FROM [Group] g\n"
+                    + "             INNER JOIN Lecturer l ON l.lid = g.lid\n"
+                    + "             INNER JOIN [Student_Group] sg ON sg.gid = g.gid\n"
+                    + "             INNER JOIN [Student] s ON s.stdid = sg.stdid \n"
+                    + "             INNER JOIN [Session] ses ON g.gid = ses.gid\n"
+                    + "             LEFT JOIN Attandance a ON s.stdid = a.stdid AND ses.sesid = a.sesid\n"
+                    + "             WHERE l.lid = ? ORDER BY gid ASC, stdid ASC";
             PreparedStatement stm = connection.prepareStatement(sql);
-            stm.setInt(1, gid);
+            stm.setInt(1, lid);
             ResultSet rs = stm.executeQuery();
-            Lecturer l = new Lecturer();
-            l.setId(rs.getInt("lid"));
-            l.setName(rs.getString("lname"));
+            Lecturer l = null;
             Group group = new Group();
             group.setId(-1);
             Student std = new Student();
             std.setId(-1);
             int check = 0;
             while (rs.next()) {
+                if(l==null){
+                    l = new Lecturer();
+                    l.setId(rs.getInt("lid"));
+                    l.setName(rs.getString("lname"));
+                }
                 int groupId = rs.getInt("gid");
                 if (groupId != 0) {
-                    if(groupId!=group.getId()){
+                    if (groupId != group.getId()) {
                         group = new Group();
                         group.setSupervisor(l);
                         group.setId(rs.getInt("gid"));
@@ -74,11 +77,11 @@ public class GroupDBContext extends DBContext<Group> {
                         l.getGroups().add(group);
                         check = 0;
                     }
-                    
+
                 }
                 int stdId = rs.getInt("stdid");
-                if(stdId!=0){
-                    if(stdId!=std.getId()){
+                if (stdId != 0) {
+                    if (stdId != std.getId()) {
                         std = new Student();
                         std.setId(rs.getInt("stdid"));
                         std.setName(rs.getString("stdname"));
@@ -91,7 +94,7 @@ public class GroupDBContext extends DBContext<Group> {
                 ses.setAttandated(rs.getBoolean("attanded"));
                 ses.setDate(rs.getDate("date"));
                 ses.setIndex(rs.getInt("index"));
-                if(check==1){
+                if (check == 1) {
                     group.getSessions().add(ses);
                 }
                 Attandance a = new Attandance();
@@ -101,7 +104,7 @@ public class GroupDBContext extends DBContext<Group> {
                 a.setDescription(rs.getString("description"));
                 std.getAttandances().add(a);
             }
-            return group;
+            return l;
         } catch (SQLException ex) {
             Logger.getLogger(GroupDBContext.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -109,7 +112,7 @@ public class GroupDBContext extends DBContext<Group> {
     }
 
     @Override
-    public ArrayList<Group> list() {
+    public ArrayList<Lecturer> list() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 

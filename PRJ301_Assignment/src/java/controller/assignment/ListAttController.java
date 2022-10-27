@@ -5,6 +5,8 @@
 package controller.assignment;
 
 import dal.assignment.GroupDBContext;
+import dal.assignment.LecturerDBContext;
+import helper.helper;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -24,15 +26,15 @@ public class ListAttController extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        int gid = Integer.parseInt(request.getParameter("gid"));
-        GroupDBContext listDB = new GroupDBContext();
-        Group gr = listDB.get(gid);
+        int gid = 2;
+        LecturerDBContext listDB = new LecturerDBContext();
+        Group gr = helper.getGroupById(gid, listDB.get(1));
         request.setAttribute("gr", gr);
-        ArrayList<Student> stds = listDB.get(gid).getStudents();
+        ArrayList<Student> stds = gr.getStudents();
         request.setAttribute("stds", stds);
-        ArrayList<Session> sess = listDB.get(gid).getSessions();
+        ArrayList<Session> sess = gr.getSessions();
         request.setAttribute("sess", sess);
-        Lecturer lect = listDB.get(gid).getSupervisor();
+        Lecturer lect = gr.getSupervisor();
         request.setAttribute("lect", lect);  
         double numOfSlot = sess.size();
         request.setAttribute("numOfSlot", numOfSlot); 
