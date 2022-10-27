@@ -24,7 +24,7 @@
                 <c:forEach items="${requestScope.sess}" var="d">
                     <td>${d.date}</td>
                 </c:forEach>
-                    <td>Rate</td>
+                <td>Rate</td>
             </tr>
             <c:forEach items="${requestScope.stds}" var="std">
                 <tr>
@@ -32,12 +32,17 @@
                     <c:set var="total" value="${requestScope.numOfSlot}" />
                     <c:set var="count" value="0" />
                     <c:forEach items="${std.attandances}" var="att">
-                        <c:if test="${att.present}">
-                            <td>Present</td>
+                        <c:if test="${att.session.attandated}">
+                            <c:if test="${att.present}">
+                                <td>Present</td>
+                            </c:if> 
+                            <c:if test="${!att.present}">
+                                <td>Absent</td>
+                                <c:set var="count" value="${count+1}" />
+                            </c:if>
                         </c:if> 
-                        <c:if test="${!att.present}">
-                            <td>Absent</td>
-                            <c:set var="count" value="${count+1}" />
+                        <c:if test="${!att.session.attandated}">
+                                <td>Not yet</td>
                         </c:if>
 
                     </c:forEach>

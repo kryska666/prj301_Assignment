@@ -8,6 +8,18 @@
         <servlet-name>ListAttController</servlet-name>
         <url-pattern>/att/list</url-pattern>
     </servlet-mapping>
+    
+    
+    <servlet>
+        <servlet-name>TimeTable</servlet-name>
+        <servlet-class>controller.assignment.TimeTableController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>TimeTable</servlet-name>
+        <url-pattern>/lect/timetable</url-pattern>
+    </servlet-mapping>
+    
+    
     <session-config>
         <session-timeout>
             30

@@ -4,7 +4,6 @@
  */
 package controller.assignment;
 
-import dal.assignment.GroupDBContext;
 import dal.assignment.LecturerDBContext;
 import helper.helper;
 import jakarta.servlet.ServletException;
@@ -34,7 +33,7 @@ public class ListAttController extends HttpServlet {
         request.setAttribute("stds", stds);
         ArrayList<Session> sess = gr.getSessions();
         request.setAttribute("sess", sess);
-        Lecturer lect = gr.getSupervisor();
+        Lecturer lect = gr.getLectuere();
         request.setAttribute("lect", lect);  
         double numOfSlot = sess.size();
         request.setAttribute("numOfSlot", numOfSlot); 

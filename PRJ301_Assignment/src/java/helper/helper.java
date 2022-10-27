@@ -4,9 +4,11 @@
  */
 package helper;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import model.Group;
 import model.Lecturer;
+import model.Session;
 
 /**
  *
@@ -15,18 +17,27 @@ import model.Lecturer;
 public class helper {
     public static Group getGroupById(int gid,Lecturer lect){
         Group group = new Group();
-        ArrayList<Group> groups = lect.getGroups();
-        for(Group gr : groups){
+        for(Group gr : lect.getGroups()){
             if(gr.getId() == gid){
                 group.setId(gr.getId());
                 group.setName(gr.getName());
                 group.setSessions(gr.getSessions());
                 group.setStudents(gr.getStudents());
-                group.setSupervisor(gr.getSupervisor());
+                group.setLectuere(gr.getLectuere());
                 group.setSubject(gr.getSubject());
                 break;
             }
         }
         return group;
+    }
+    
+    public static ArrayList<Session> filter(Lecturer lect, java.sql.Date from, java.sql.Date to) {
+        ArrayList<Session> sessions = new ArrayList<>();
+        for(Session ses : lect.getSessions()){
+            if(util.DateTimeHelper.compare(ses.getDate(), from)>=0 && util.DateTimeHelper.compare(ses.getDate(), to)<=0){
+                sessions.add(ses);
+            }
+        }
+        return sessions;
     }
 }

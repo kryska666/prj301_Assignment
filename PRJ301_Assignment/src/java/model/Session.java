@@ -14,12 +14,31 @@ import java.util.ArrayList;
 public class Session {
     private int id;
     private Lecturer lecturer;
+    private Room room;
+    private TimeSlot timeslot;
     private Date date;
     private Group group;
     private int index;
     private boolean attandated; 
     private ArrayList<Attandance> attandances = new ArrayList<>();
 
+    public Room getRoom() {
+        return room;
+    }
+
+    public void setRoom(Room room) {
+        this.room = room;
+    }
+
+    public TimeSlot getTimeslot() {
+        return timeslot;
+    }
+
+    public void setTimeslot(TimeSlot timeslot) {
+        this.timeslot = timeslot;
+    }
+
+    
     public int getId() {
         return id;
     }
