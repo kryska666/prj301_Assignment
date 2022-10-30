@@ -25,19 +25,22 @@ public class ListAttController extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        int gid = 2;
+        int gid = 1;
         LecturerDBContext listDB = new LecturerDBContext();
-        Group gr = helper.getGroupById(gid, listDB.get(1));
+        Lecturer lect =  listDB.get(1);//thay tham so
+        Group gr = helper.getGroupById(gid,lect);
         request.setAttribute("gr", gr);
         ArrayList<Student> stds = gr.getStudents();
         request.setAttribute("stds", stds);
         ArrayList<Session> sess = gr.getSessions();
         request.setAttribute("sess", sess);
-        Lecturer lect = gr.getLectuere();
         request.setAttribute("lect", lect);  
         double numOfSlot = sess.size();
         request.setAttribute("numOfSlot", numOfSlot); 
+        boolean istrue = gr.getStudents().get(0).getAttandances().get(0).getSession().isAttandated();
+        request.setAttribute("istrue", istrue); 
         request.getRequestDispatcher("../view/lecturer/ListAttandance.jsp").forward(request, response);
+        
 
     }
 

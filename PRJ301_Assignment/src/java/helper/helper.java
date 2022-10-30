@@ -40,4 +40,14 @@ public class helper {
         }
         return sessions;
     }
+    
+    
+     public static Session getSessionByID(Lecturer lect, int sessionId) {
+        for(Session ses : lect.getSessions()){
+            if(ses.getId() == sessionId){
+               return ses;
+            }
+        }
+        return null;
+    }     
 }

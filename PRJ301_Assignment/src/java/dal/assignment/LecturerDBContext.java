@@ -42,24 +42,25 @@ public class LecturerDBContext extends DBContext<Lecturer> {
 
     @Override
     public Lecturer get(int lid) {
+        ArrayList<Session> sessions = new ArrayList<>();
         try {
             String sql = "SELECT l.lid,l.lname,\n"
                     + "				g.[gid], g.[gname], g.[lid]\n"
-                    + "                    		,s.stdid,s.stdname\n"
-                    + "                   		,ISNULL(a.present,0) present, ISNULL(a.[description],'') [attdescription]\n"
-                    + "                    		,ses.sesid,ses.[index],ses.date,ses.attanded\n"
+                    + "                    	,s.stdid,s.stdname\n"
+                    + "                   	,ISNULL(a.present,0) present, ISNULL(a.[description],'') [attdescription]\n"
+                    + "                    	,ses.sesid,ses.[index],ses.date,ses.attanded\n"
                     + "				,sub.subid,sub.subname\n"
                     + "				,r.rid,r.rname\n"
-                    + "				,t.tid,t.[timedescription]\n"
-                    + "                    		FROM [Group] g\n"
-                    + "                   		INNER JOIN Lecturer l ON l.lid = g.lid\n"
+                    + "				,t.tid,t.[description]\n"
+                    + "                    	FROM [Group] g\n"
+                    + "                   	INNER JOIN Lecturer l ON l.lid = g.lid\n"
                     + "				INNER JOIN [Subject] sub ON sub.subid = g.subid\n"
-                    + "                   		INNER JOIN [Student_Group] sg ON sg.gid = g.gid\n"
-                    + "                   		INNER JOIN [Student] s ON s.stdid = sg.stdid \n"
+                    + "                   	INNER JOIN [Student_Group] sg ON sg.gid = g.gid\n"
+                    + "                   	INNER JOIN [Student] s ON s.stdid = sg.stdid \n"
                     + "				INNER JOIN [Session] ses ON g.gid = ses.gid\n"
                     + "				INNER JOIN Room r ON r.rid = ses.rid\n"
                     + "				INNER JOIN TimeSlot t ON t.tid = ses.tid\n"
-                    + "                   		LEFT JOIN Attandance a ON s.stdid = a.stdid AND ses.sesid = a.sesid\n"
+                    + "                   	LEFT JOIN Attandance a ON s.stdid = a.stdid AND ses.sesid = a.sesid\n"
                     + "				WHERE l.lid=?\n"
                     + "				ORDER BY gid ASC, stdid ASC";
             PreparedStatement stm = connection.prepareStatement(sql);
@@ -105,24 +106,25 @@ public class LecturerDBContext extends DBContext<Lecturer> {
                         check++;
                     }
                 }
+                ses = new Session();
+                ses.setId(rs.getInt("sesid"));
+                ses.setAttandated(rs.getBoolean("attanded"));
+                ses.setDate(rs.getDate("date"));
+                ses.setIndex(rs.getInt("index"));
+                Room r = new Room();
+                TimeSlot t = new TimeSlot();
+                r.setId(rs.getInt("rid"));
+                r.setName(rs.getString("rname"));
+                ses.setRoom(r);
+                t.setId(rs.getInt("tid"));
+                t.setDescription(rs.getString("description"));
+                ses.setTimeslot(t);
+                ses.setGroup(group);
 
                 if (check == 1) {
-                    ses = new Session();
-                    ses.setId(rs.getInt("sesid"));
-                    ses.setAttandated(rs.getBoolean("attanded"));
-                    ses.setDate(rs.getDate("date"));
-                    ses.setIndex(rs.getInt("index"));
-                    Room r = new Room();
-                    TimeSlot t = new TimeSlot();
-                    r.setId(rs.getInt("rid"));
-                    r.setName(rs.getString("rname"));
-                    ses.setRoom(r);
-                    t.setId(rs.getInt("tid"));
-                    t.setDescription(rs.getString("timedescription"));
-                    ses.setTimeslot(t);
-                    ses.setGroup(group);
                     group.getSessions().add(ses);
                     l.getSessions().add(ses);
+                    sessions.add(ses);
                 }
                 Attandance a = new Attandance();
                 a.setStudent(std);
@@ -130,6 +132,11 @@ public class LecturerDBContext extends DBContext<Lecturer> {
                 a.setPresent(rs.getBoolean("present"));
                 a.setDescription(rs.getString("attdescription"));
                 std.getAttandances().add(a);
+                for(Session session : sessions){
+                    if(session.getId() == ses.getId()){
+                        session.getAttandances().add(a);
+                    }
+                }
             }
             return l;
         } catch (SQLException ex) {

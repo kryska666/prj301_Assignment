@@ -42,14 +42,14 @@ public class TimeSlotDBContext extends DBContext<TimeSlot>{
     public ArrayList<TimeSlot> list() {
         ArrayList<TimeSlot> slots = new ArrayList<>();
         try {
-            String sql = "SELECT tid,[timedescription] FROM TimeSlot";
+            String sql = "SELECT tid,[description] FROM TimeSlot";
             PreparedStatement stm = connection.prepareStatement(sql);
             ResultSet rs = stm.executeQuery();
             while(rs.next())
             {
                 TimeSlot slot = new TimeSlot();
                 slot.setId(rs.getInt("tid"));
-                slot.setDescription(rs.getString("timedescription"));
+                slot.setDescription(rs.getString("description"));
                 slots.add(slot);
             }
             

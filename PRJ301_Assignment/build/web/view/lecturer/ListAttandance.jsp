@@ -50,6 +50,7 @@
                 </tr>
             </c:forEach>
         </table>
+        ${requestScope.istrue}
     </body>
 </html>
 

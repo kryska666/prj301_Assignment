@@ -17,8 +17,16 @@
     <servlet-mapping>
         <servlet-name>TimeTable</servlet-name>
         <url-pattern>/lect/timetable</url-pattern>
-    </servlet-mapping>
-    
+    </servlet-mapping>       
+            
+    <servlet>
+        <servlet-name>TakeAtt</servlet-name>
+        <servlet-class>controller.assignment.TakeAtt</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>TakeAtt</servlet-name>
+        <url-pattern>/lect/takeatt</url-pattern>
+    </servlet-mapping>  
     
     <session-config>
         <session-timeout>
