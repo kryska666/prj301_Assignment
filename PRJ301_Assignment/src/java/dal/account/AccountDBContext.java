@@ -101,6 +101,7 @@ public class AccountDBContext extends DBContext<Account> {
         try {
             String sql = "SELECT [username]\n"
                     + "      ,[objid]\n"
+                    + "      ,[rid]\n"
                     + "  FROM [Account_Object]\n"
                     + "  WHERE [username] = ? AND [rid] = ?";
             PreparedStatement stm = connection.prepareStatement(sql);

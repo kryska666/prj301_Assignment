@@ -34,11 +34,19 @@
             </nav>
             </br>
             </br>
-            <div style="margin-left: 20px">
-                <h3><a href="lect/timetable">Timetable</a></h3>
-                </br>
-                <h3><a href="lect/list">Attendance Report</a></h3>
-            </div>
+            <c:if test="${!requestScope.x}">
+                <div style="margin-left: 20px">
+                    <h3><a href="std/timetable">Timetable</a></h3>
+                </div>
+            </c:if>
+            <c:if test="${requestScope.x}">
+                <div style="margin-left: 20px">
+                    <h3><a href="lect/timetable">Timetable</a></h3>
+                    </br>
+                    <h3><a href="lect/list">Attendance Report</a></h3>
+                </div>
+            </c:if>
+            
             
             
 
