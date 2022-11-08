@@ -31,7 +31,7 @@ public class ListAttController extends BaseRoleController {
         LecturerDBContext listDB = new LecturerDBContext();
         AccountDBContext accDB = new AccountDBContext();
         Account acc = (Account) request.getSession().getAttribute("account");
-        int lectid = accDB.getId(acc.getUsername());
+        int lectid = accDB.getId(acc.getUsername(),1);
         Lecturer lect = listDB.get(lectid);//thay tham so
         ArrayList<Group> groups = lect.getGroups();
         request.setAttribute("groups", groups);

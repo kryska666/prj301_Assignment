@@ -13,8 +13,8 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <a href="../home${group.id}">Home</a>
-        <a href="../logout${group.id}">Logout</a>
+        <a href="../home">Home</a>
+        <a href="../logout">Logout</a>
         </br>
         Take attendance for Group: ${requestScope.ses.group.name} <br/>
         Subject: ${requestScope.ses.group.subject.name} <br/>

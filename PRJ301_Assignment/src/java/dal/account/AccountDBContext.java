@@ -96,15 +96,16 @@ public class AccountDBContext extends DBContext<Account> {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
-    public int getId(String username) {
+    public int getId(String username, int roleid) {
         int objectId = -1;
         try {
             String sql = "SELECT [username]\n"
                     + "      ,[objid]\n"
                     + "  FROM [Account_Object]\n"
-                    + "  WHERE [username] =?";
+                    + "  WHERE [username] = ? AND [rid] = ?";
             PreparedStatement stm = connection.prepareStatement(sql);
             stm.setString(1, username);
+            stm.setInt(2, roleid);
             ResultSet rs = stm.executeQuery();
             Role currentRole = new Role();
             currentRole.setId(-1);

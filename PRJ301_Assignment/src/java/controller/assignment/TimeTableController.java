@@ -31,7 +31,7 @@ public class TimeTableController extends BaseRoleController {
             throws ServletException, IOException {
         AccountDBContext accDB = new AccountDBContext();
         Account acc = (Account) request.getSession().getAttribute("account");
-        int lid = accDB.getId(acc.getUsername());;
+        int lid = accDB.getId(acc.getUsername(),1);;
         String raw_from = request.getParameter("from");
         String raw_to = request.getParameter("to");
         java.sql.Date from = null;

@@ -13,8 +13,10 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <a href="../home${group.id}">Home</a>
-        <a href="../logout${group.id}">Logout</a>
+        <a href="../home">Home</a>
+        <a href="../logout">Logout</a>
+        </br>
+        Class List:
         </br>
         <c:forEach items="${requestScope.groups}" var="group">
             <a href="list?gid=${group.id}">${group.name}</a>

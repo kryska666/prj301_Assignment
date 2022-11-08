@@ -14,19 +14,23 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <a href="../home${group.id}">Home</a>
-        <a href="../logout${group.id}">Logout</a>
+        <a href="../home">Home</a>
+        <a href="../logout">Logout</a>
         </br>
         Lecturer: <input type="text" readonly="readonly" value="${requestScope.lecturer.name}"/>
-        <form action="timetable" method="GET">
-            <input type="hidden" name="lid" value="${param.lid}"/>
-            From: <input type="date" name="from" value="${requestScope.from}"/>
-            To: <input type="date" name="to" value="${requestScope.to}"/>
-            <input type="submit" value="View"/> 
-        </form>
+
         <table border="1px">
             <tr>
-                <td> </td>
+                <td>
+                    <form action="timetable" method="GET">
+                        <input type="hidden" name="lid" value="${param.lid}"/>
+                        From: <input type="date" name="from" value="${requestScope.from}"/>
+                        </br>
+                        To: <input type="date" name="to" value="${requestScope.to}"/>
+                        </br>
+                        <input type="submit" value="View"/> 
+                    </form>
+                </td>
                 <c:forEach items="${requestScope.dates}" var="d">
                     <td>${d}<br/>${helper.getDayNameofWeek(d)}</td>
                     </c:forEach>
