@@ -10,12 +10,23 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
+        <link rel="stylesheet" href="../../CSS/logincss.css">
     </head>
     <body>
-        <form action="login" method="POST">
-            Username: <input type="text" name="username"/> <br/>
-            password: <input type="password" name="password" /> <br/>
-            <input type="submit" value="Login" /> 
-        </form>    
+        <h1>FPT University</h1>
+        <div class="login1" style="background-color: #6b90da;border-radius: 4px;  text-align: center; width: 360px;
+             padding: 1% 1% ;
+             margin: auto;">
+            <form action="login" method="POST">
+                <div style=" margin: 3px">
+                    Username: <input type="text" name="username"/>
+                </div>
+                <div style=" margin: 3px">
+                    Password: <input type="password" name="password" />
+                </div>
+                <input type="submit" value="Login" /> 
+            </form>   
+        </div>
+
     </body>
 </html>

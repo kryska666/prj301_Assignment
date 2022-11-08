@@ -13,14 +13,40 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <a href="../home">Home</a>
-        <a href="../logout">Logout</a>
+        <h1>Attendance Report</h1>
         </br>
-        Class List:
+        <nav style="display: flex;
+             justify-content: space-between;
+             margin-top: 30px;
+             margin-bottom: 40px;
+             padding: 8px 15px;
+             background-color: #f5f5f5;
+             text-align: center">
+            <div>
+                <p><a href="../home" style="text-decoration: none; color: black; background: #00cc33; border-radius: 4px; padding: 4px">Home</a></p>
+            </div>
+            <div>
+                <p><a href="../logout" style="text-decoration: none; color: black; background: #00cc33; border-radius: 4px; padding: 4px">logout</a></p>
+            </div>
+        </nav>
         </br>
-        <c:forEach items="${requestScope.groups}" var="group">
-            <a href="list?gid=${group.id}">${group.name}</a>
-        </c:forEach>
+        <div>
+            <p>Class List:</p>
+            </br>
+            <div style=" background-color: #6b90da;">
+                <div style="display: flex; justify-content: space-between; max-width: 100%;">
+                    <c:forEach items="${requestScope.groups}" var="group">
+                        <p style="margin: 20px">
+                            <a href="list?gid=${group.id}">${group.name}</a>
+                        </p>
+
+                    </c:forEach>
+                </div>
+            </div>
+
+
+        </div>
+
         </br>
         </br>
         <c:if test="${requestScope.gr ne null}">
@@ -29,36 +55,36 @@
                 <input type="hidden" name="gid" value="${param.gid}"/>
             </form>
             Class: <input type="text" readonly="readonly" value="${requestScope.gr.name}"/>
-            <table border="1px">
+            <table border="1px" style="width: 100%">
                 <c:set var="total" value="0" />
                 <tr>
                     <td> </td>
                     <c:forEach items="${requestScope.sess}" var="d">
                         <c:set var="total" value="${total+1}" />
-                        <td><a href="takeatt?id=${d.id}">Slot ${total} </br> (${d.date})</a> </td>
+                        <td style="background-color: #6b90da; font-weight: bold;"><a style="color: black; text-decoration: none;" href="takeatt?id=${d.id}">Slot ${total} </br> (${d.date})</a> </td>
                     </c:forEach>
-                    <td>Rate</td>
+                    <td style="background-color: #6b90da; font-weight: bold">Rate</td>
                 </tr>
                 <c:forEach items="${requestScope.stds}" var="std">
                     <tr>
-                        <td>${std.name}</td> 
+                        <td style=" background-color: #6b90da;">${std.name}</td> 
                         <c:set var="count" value="0" />
                         <c:forEach items="${std.attandances}" var="att">
                             <c:if test="${att.session.attandated}">
                                 <c:if test="${att.present}">
-                                    <td>Present</td>
+                                    <td style="color: #00cc33; text-align: center">Present</td>
                                 </c:if> 
                                 <c:if test="${!att.present}">
-                                    <td>Absent</td>
+                                    <td style="color: red; text-align: center">Absent</td>
                                     <c:set var="count" value="${count+1}" />
                                 </c:if>
                             </c:if> 
                             <c:if test="${!att.session.attandated}">
-                                <td>Not yet</td>
+                                <td style="text-align: center">Not yet</td>
                             </c:if>
 
                         </c:forEach>
-                        <td>${count/total*100}%</td>
+                                <td style="text-align: center">${count/total*100}%</td>
                     </tr>
                 </c:forEach>
             </table>

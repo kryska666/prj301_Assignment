@@ -17,7 +17,7 @@ import model.account.Account;
  *
  * @author admin
  */
-public class HomeController extends BaseRoleController {
+public class HomeController extends HttpServlet {
 
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -26,15 +26,13 @@ public class HomeController extends BaseRoleController {
         request.getRequestDispatcher("view/home.jsp").forward(request, response);
     }
 
-
-
     @Override
-    protected void processPost(HttpServletRequest req, HttpServletResponse resp, Account account) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         processRequest(req, resp);
     }
 
     @Override
-    protected void processGet(HttpServletRequest req, HttpServletResponse resp, Account account) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         processRequest(req, resp);
     }
 }
