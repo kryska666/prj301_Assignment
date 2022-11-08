@@ -19,7 +19,7 @@ import model.account.Role;
  *
  * @author admin
  */
-public class AccountDBContext extends DBContext<Account>{
+public class AccountDBContext extends DBContext<Account> {
 
     @Override
     public void insert(Account model) {
@@ -40,10 +40,7 @@ public class AccountDBContext extends DBContext<Account>{
     public Account get(int id) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-    
-    
-    
-    
+
     public Account get(String username, String password) {
         try {
             String sql = "SELECT a.username,a.displayname\n"
@@ -69,20 +66,17 @@ public class AccountDBContext extends DBContext<Account>{
                     account.setDisplayname(rs.getString("displayname"));
                 }
                 int rid = rs.getInt("rid");
-                if(rid!=0)
-                {
-                    if(rid!= currentRole.getId())
-                    {
+                if (rid != 0) {
+                    if (rid != currentRole.getId()) {
                         currentRole = new Role();
                         currentRole.setId(rs.getInt("rid"));
                         currentRole.setName(rs.getString("rname"));
                         account.getRoles().add(currentRole);
                     }
                 }
-                
+
                 int fid = rs.getInt("fid");
-                if(fid!=0)
-                {
+                if (fid != 0) {
                     Feature f = new Feature();
                     f.setId(rs.getInt("fid"));
                     f.setName(rs.getString("fname"));
@@ -101,5 +95,27 @@ public class AccountDBContext extends DBContext<Account>{
     public ArrayList<Account> list() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-    
+
+    public int getId(String username) {
+        int objectId = -1;
+        try {
+            String sql = "SELECT [username]\n"
+                    + "      ,[objid]\n"
+                    + "  FROM [Account_Object]\n"
+                    + "  WHERE [username] =?";
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setString(1, username);
+            ResultSet rs = stm.executeQuery();
+            Role currentRole = new Role();
+            currentRole.setId(-1);
+            while (rs.next()) {
+                objectId = rs.getInt("objid");
+            }
+            return objectId;
+        } catch (SQLException ex) {
+            Logger.getLogger(AccountDBContext.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return objectId;
+    }
+
 }

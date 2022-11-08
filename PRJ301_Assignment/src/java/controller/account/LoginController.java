@@ -4,10 +4,46 @@
  */
 package controller.account;
 
+import dal.account.AccountDBContext;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import model.account.Account;
+
 /**
  *
  * @author admin
  */
-public class LoginController {
-    
+public class LoginController extends HttpServlet{
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+    throws ServletException, IOException {
+        request.getRequestDispatcher("view/auth/login.jsp").forward(request, response);
+    } 
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+    throws ServletException, IOException {
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+        AccountDBContext db = new AccountDBContext();
+        Account account = db.get(username, password);
+        if(account == null)
+        {
+            response.getWriter().println("login failed!");
+        }
+        else
+        {
+            request.getSession().setAttribute("account", account);
+            response.sendRedirect("home");
+        }
+    }
+
+
+    @Override
+    public String getServletInfo() {
+        return "Short description";
+    }
 }

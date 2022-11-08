@@ -4,12 +4,14 @@
         <servlet-name>ListAttController</servlet-name>
         <servlet-class>controller.assignment.ListAttController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>HomeController</servlet-name>
+        <servlet-class>controller.assignment.HomeController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ListAttController</servlet-name>
-        <url-pattern>/att/list</url-pattern>
+        <url-pattern>/lect/list</url-pattern>
     </servlet-mapping>
-    
-    
     <servlet>
         <servlet-name>TimeTable</servlet-name>
         <servlet-class>controller.assignment.TimeTableController</servlet-class>
@@ -17,8 +19,7 @@
     <servlet-mapping>
         <servlet-name>TimeTable</servlet-name>
         <url-pattern>/lect/timetable</url-pattern>
-    </servlet-mapping>       
-            
+    </servlet-mapping>
     <servlet>
         <servlet-name>TakeAtt</servlet-name>
         <servlet-class>controller.assignment.TakeAtt</servlet-class>
@@ -26,8 +27,27 @@
     <servlet-mapping>
         <servlet-name>TakeAtt</servlet-name>
         <url-pattern>/lect/takeatt</url-pattern>
-    </servlet-mapping>  
-    
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>LoginController</servlet-name>
+        <servlet-class>controller.account.LoginController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>LoginController</servlet-name>
+        <url-pattern>/login</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>LogoutController</servlet-name>
+        <servlet-class>controller.account.LogoutController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>LogoutController</servlet-name>
+        <url-pattern>/logout</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>HomeController</servlet-name>
+        <url-pattern>/home</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             30

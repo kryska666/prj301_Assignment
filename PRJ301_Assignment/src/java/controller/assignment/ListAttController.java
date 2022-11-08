@@ -4,6 +4,8 @@
  */
 package controller.assignment;
 
+import controller.account.BaseRoleController;
+import dal.account.AccountDBContext;
 import dal.assignment.LecturerDBContext;
 import helper.helper;
 import jakarta.servlet.ServletException;
@@ -16,41 +18,48 @@ import model.Group;
 import model.Lecturer;
 import model.Session;
 import model.Student;
+import model.account.Account;
 
 /**
  *
  * @author admin
  */
-public class ListAttController extends HttpServlet {
+public class ListAttController extends BaseRoleController {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        int gid = 1;
         LecturerDBContext listDB = new LecturerDBContext();
-        Lecturer lect =  listDB.get(1);//thay tham so
-        Group gr = helper.getGroupById(gid,lect);
-        request.setAttribute("gr", gr);
-        ArrayList<Student> stds = gr.getStudents();
-        request.setAttribute("stds", stds);
-        ArrayList<Session> sess = gr.getSessions();
-        request.setAttribute("sess", sess);
-        request.setAttribute("lect", lect);  
-        double numOfSlot = sess.size();
-        request.setAttribute("numOfSlot", numOfSlot); 
-        boolean istrue = gr.getStudents().get(0).getAttandances().get(0).getSession().isAttandated();
-        request.setAttribute("istrue", istrue); 
+        AccountDBContext accDB = new AccountDBContext();
+        Account acc = (Account) request.getSession().getAttribute("account");
+        int lectid = accDB.getId(acc.getUsername());
+        Lecturer lect = listDB.get(lectid);//thay tham so
+        ArrayList<Group> groups = lect.getGroups();
+        request.setAttribute("groups", groups);
+        String raw_gid = request.getParameter("gid");
+        if (raw_gid != null) {
+            int gid = Integer.parseInt(raw_gid);
+            Group gr = helper.getGroupById(gid, lect);
+            request.setAttribute("gr", gr);
+            ArrayList<Student> stds = gr.getStudents();
+            request.setAttribute("stds", stds);
+            ArrayList<Session> sess = gr.getSessions();
+            request.setAttribute("sess", sess);
+            request.setAttribute("lect", lect);
+            boolean istrue = gr.getStudents().get(0).getAttandances().get(0).getSession().isAttandated();
+            request.setAttribute("istrue", istrue);
+        }
+
         request.getRequestDispatcher("../view/lecturer/ListAttandance.jsp").forward(request, response);
-        
 
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void processPost(HttpServletRequest req, HttpServletResponse resp, Account account) throws ServletException, IOException {
         processRequest(req, resp);
     }
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void processGet(HttpServletRequest req, HttpServletResponse resp, Account account) throws ServletException, IOException {
         processRequest(req, resp);
     }
 
